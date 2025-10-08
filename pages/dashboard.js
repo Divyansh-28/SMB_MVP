@@ -4,11 +4,41 @@ import GraphCard from "../components/GraphCard";
 import { useState } from "react";
 
 export default function Dashboard() {
-  const insights = [
-    { title: "Campaign Reach", detail: "Your Diwali push reached 8,500 people across Meta.", action: "Boost evening ads to expand reach by +25%." },
-    { title: "Top Creative", detail: "‘Festive Sale 50% Off’ drove 42% higher clicks.", action: "Reuse this creative next week." },
-    { title: "Budget Performance", detail: "₹4,300 of ₹10,000 spent with ROI ≈ 3.1x.", action: "Shift ₹1,500 to conversion-focused creatives." },
-  ];
+const insights = [
+  {
+    title: "Boost Evening Ad Performance",
+    detail: "Evening slots (6–10 PM) get 30% higher CTR.",
+    action: "Increase frequency for evening hours.",
+    steps: [
+      "Go to campaign scheduling → select evening slots.",
+      "Reallocate 20% budget from low-performing times.",
+      "Add festive creative for evening audience.",
+    ],
+    rationale: "Evening hours align with high mobile usage. Shifting budget improves efficiency.",
+  },
+  {
+    title: "Retarget Non-Converters",
+    detail: "42% of users visited landing page but didn’t convert.",
+    action: "Launch retargeting with 10% discount.",
+    steps: [
+      "Create a retargeting campaign for 'page visitors'.",
+      "Add limited-time coupon CTA.",
+      "Monitor conversion uplift after 3 days.",
+    ],
+    rationale: "Retargeting warm audiences can deliver up to 2.5x higher ROI.",
+  },
+  {
+    title: "Enhance Repeat Customer Retention",
+    detail: "Repeat customers contribute 35% of total revenue.",
+    action: "Launch loyalty WhatsApp campaign.",
+    steps: [
+      "Segment customer list → frequent buyers.",
+      "Send WhatsApp coupon or offer.",
+      "Add call-to-action: 'Refer a friend, get ₹100 off'.",
+    ],
+    rationale: "Retention campaigns are cheaper than new acquisitions and improve lifetime value.",
+  },
+];
 
   const customers = [
     { metric: "New Customers", value: 120, change: 18 },
@@ -127,6 +157,25 @@ export default function Dashboard() {
             <aside>
               <div className="card">
                 <h4 style={{marginTop:0, color:'var(--accent-2)'}}>👥 Customer Snapshot</h4>
+              
+<div className="card" style={{ marginTop: "14px", background: "#FFF8E1" }}>
+  <h4 style={{ marginTop: 0 }}>🎯 Find My Audience</h4>
+  <p style={{ fontSize: "0.95rem", color: "#444" }}>
+    Not sure who your ideal audience is? Let’s help you discover it.
+  </p>
+  <button
+    className="btn primary"
+    onClick={(e) => {
+      e.preventDefault();
+      alert(
+        "Based on your past ad engagement, your top-performing audience segments are:\n\n1️⃣ Women (25–40) in Pune\n2️⃣ Fashion-conscious urban users\n3️⃣ Repeat buyers from last Diwali campaign."
+      );
+    }}
+  >
+    Know My Audience →
+  </button>
+</div>
+
                 <div style={{display:'grid', gap:10, marginTop:8}}>
                   {customers.map((c, idx) => (
                     <div key={idx} style={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
