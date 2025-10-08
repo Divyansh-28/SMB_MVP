@@ -1,5 +1,4 @@
 export default function GraphCard({ title, series = [], projection = [] }) {
-  // series: [{label:'7d', values:[..]}], we render first series and projection overlay
   const width = 320, height = 90, padding = 10;
   const data = series[0]?.values || [0,0,0,0,0,0,0];
   const proj = projection || [];
@@ -29,15 +28,11 @@ export default function GraphCard({ title, series = [], projection = [] }) {
 
       <div className="chart-wrap" style={{marginTop:12}}>
         <svg width="100%" viewBox={`0 0 ${width} ${height}`} preserveAspectRatio="none">
-          {/* grid lines */}
           {[0.25,0.5,0.75].map((p,i) => (
             <line key={i} x1={padding} x2={width-padding} y1={padding + p*(height-padding*2)} y2={padding + p*(height-padding*2)} stroke="#eee" />
           ))}
-          {/* historical polyline */}
           <polyline fill="none" stroke="#FF6B6B" strokeWidth="2.5" points={points} strokeLinecap="round" strokeLinejoin="round" />
-          {/* projection dashed */}
           {proj.length>0 && <polyline fill="none" stroke="#4ECDC4" strokeWidth="1.8" points={`${points} ${projPoints}`} strokeDasharray="4 6" />}
-          {/* small dots */}
           {data.map((v,i) => {
             const x = padding + (i/(data.length -1)) * (width - padding*2 || 1);
             const y = height - padding - (v/max)*(height - padding*2);
