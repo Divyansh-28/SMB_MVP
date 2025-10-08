@@ -1,20 +1,25 @@
 import Navbar from "../components/Navbar";
 import InsightCard from "../components/InsightCard";
+import GraphCard from "../components/GraphCard";
 import { useState } from "react";
 
 export default function Dashboard() {
   const insights = [
-    { title: "Campaign Reach", detail: "Your Diwali campaign reached 8,500 people across Meta.", action: "Boost evening ads to expand reach by +25%." },
+    { title: "Campaign Reach", detail: "Your Diwali push reached 8,500 people across Meta.", action: "Boost evening ads to expand reach by +25%." },
     { title: "Top Creative", detail: "‘Festive Sale 50% Off’ drove 42% higher clicks.", action: "Reuse this creative next week." },
-    { title: "Budget Performance", detail: "₹4,300 of ₹10,000 spent with ROI of 3.1x.", action: "Increase conversion spend slightly." },
+    { title: "Budget Performance", detail: "₹4,300 of ₹10,000 spent with ROI ≈ 3.1x.", action: "Shift ₹1,500 to conversion-focused creatives." },
   ];
 
   const customers = [
-    { metric: "New Customers", value: "120", change: "+18%" },
-    { metric: "Repeat Customers", value: "32", change: "+8%" },
-    { metric: "Avg Spend", value: "₹740", change: "+12%" },
-    { metric: "Top Location", value: "Pune", change: "—" },
+    { metric: "New Customers", value: 120, change: 18 },
+    { metric: "Repeat Customers", value: 32, change: 8 },
+    { metric: "Avg Spend", value: 740, change: 12 },
+    { metric: "Top Location", value: "Pune", change: 0 },
   ];
+
+  // sample series for graph (simple mock)
+  const reachSeries = [{ label: "reach", values: [600,700,850,760,900,980,850] }];
+  const reachProjection = [880, 920, 960, 1000, 1040, 1100, 1150]; // next 7 days
 
   const [chatMessages, setChatMessages] = useState([
     { from: "bot", text: "Hi Rahul 👋 I’ve analyzed your latest campaign. Want a quick summary?" },
@@ -28,106 +33,146 @@ export default function Dashboard() {
     setTimeout(() => {
       setChatMessages((msgs) => [
         ...msgs,
-        { from: "bot", text: "You could target last week’s high-engagement audience and try festive remarketing creatives 🎯" },
+        { from: "bot", text: "Suggestion: Retarget visitors who clicked but didn't convert — create a discount + urgency creative." },
       ]);
-    }, 800);
+    }, 700);
     setInput("");
   };
 
   return (
     <>
       <Navbar />
-      <main style={{ padding: "40px", background: "#F8F9FA", minHeight: "100vh" }}>
-        <h2 style={{ textAlign: "center", color: "#2E2E3A" }}>Campaign Dashboard</h2>
+      <main className="container" style={{ paddingTop: 26 }}>
+        <h2 className="page-title">Campaign Dashboard</h2>
 
-        {/* Insights Section */}
-        <section style={{ marginTop: "30px" }}>
-          <h3 style={{ marginBottom: "16px", color: "#FF6B6B" }}>📈 Campaign Insights</h3>
-          <div style={{
-            display: "grid",
-            gap: "20px",
-            gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
-          }}>
-            {insights.map((i, idx) => <InsightCard key={idx} {...i} />)}
+        {/* top stats */}
+        <section style={{ marginBottom: 18 }}>
+          <div className="grid cols-3">
+            <div className="card">
+              <div className="stat">
+                <div>
+                  <div className="meta">Total Reach</div>
+                  <div className="value">8,500</div>
+                </div>
+                <div className="pill">+14%</div>
+              </div>
+            </div>
+
+            <div className="card">
+              <div className="stat">
+                <div>
+                  <div className="meta">Conversions</div>
+                  <div className="value">210</div>
+                </div>
+                <div className="pill" style={{background:'var(--accent-2)'}}>+9%</div>
+              </div>
+            </div>
+
+            <div className="card">
+              <div className="stat">
+                <div>
+                  <div className="meta">Budget Spent</div>
+                  <div className="value">₹4,300 / ₹10,000</div>
+                </div>
+                <div className="pill" style={{background:'var(--accent-1)', color:'#2E2E3A'}}>Manage</div>
+              </div>
+            </div>
           </div>
         </section>
 
-        {/* Customer Analytics Section */}
-        <section style={{ marginTop: "40px" }}>
-          <h3 style={{ marginBottom: "16px", color: "#4ECDC4" }}>👥 Customer Analytics</h3>
-          <div style={{
-            display: "grid",
-            gap: "20px",
-            gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-          }}>
-            {customers.map((c, idx) => (
-              <div key={idx} style={{
-                background: "white",
-                padding: "20px",
-                borderRadius: "12px",
-                boxShadow: "0 4px 10px rgba(0,0,0,0.08)",
-                textAlign: "center",
-                borderTop: `4px solid ${idx % 2 === 0 ? "#FF6B6B" : "#FFD93D"}`
-              }}>
-                <h4 style={{ color: "#2E2E3A", marginBottom: "6px" }}>{c.metric}</h4>
-                <p style={{ fontSize: "22px", fontWeight: "bold", margin: 0 }}>{c.value}</p>
-                <p style={{ color: "#4ECDC4", margin: 0 }}>{c.change}</p>
-              </div>
-            ))}
-          </div>
-        </section>
+        {/* insights + graphs */}
+        <section>
+          <div className="grid" style={{ gridTemplateColumns: "1fr 340px", gap: 18 }}>
+            <div>
+              <h3 style={{color:'var(--primary-1)'}}>📈 Performance & Projections</h3>
 
-        {/* Chatbot Section */}
-        <section style={{
-          marginTop: "50px",
-          background: "white",
-          borderRadius: "12px",
-          boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
-          maxWidth: "700px",
-          marginInline: "auto",
-          padding: "24px"
-        }}>
-          <h3 style={{ color: "#FF6B6B", marginBottom: "12px" }}>🤖 AI Assistant</h3>
-          <div style={{
-            height: "220px",
-            overflowY: "auto",
-            border: "1px solid #eee",
-            borderRadius: "10px",
-            padding: "12px",
-            background: "#fff"
-          }}>
-            {chatMessages.map((m, idx) => (
-              <div key={idx} style={{
-                textAlign: m.from === "user" ? "right" : "left",
-                marginBottom: "10px"
-              }}>
-                <span style={{
-                  display: "inline-block",
-                  background: m.from === "user" ? "#FFD93D" : "#F8F9FA",
-                  color: m.from === "user" ? "#2E2E3A" : "#2E2E3A",
-                  padding: "8px 12px",
-                  borderRadius: "12px",
-                  maxWidth: "80%",
-                }}>{m.text}</span>
+              <div className="grid cols-2" style={{ marginTop: 12 }}>
+                {insights.map((i, idx) => (
+                  <InsightCard key={idx} {...i} />
+                ))}
               </div>
-            ))}
+
+              <div style={{ marginTop: 18 }}>
+                <GraphCard title="Reach (last 7 days)" series={reachSeries} projection={reachProjection} />
+              </div>
+
+              {/* projections table */}
+              <div style={{ marginTop: 16 }} className="card">
+                <h4 style={{ marginTop: 0 }}>Projected Outcomes</h4>
+                <div className="small">Estimated results if current trend continues</div>
+
+                <table className="proj-table" style={{marginTop:12}}>
+                  <thead>
+                    <tr><th>Metric</th><th>Now</th><th>7 days</th><th>30 days</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Reach</td><td>8,500</td><td className="proj-positive">9,500 (+12%)</td><td className="proj-positive">11,000 (+29%)</td></tr>
+                    <tr><td>Conversions</td><td>210</td><td className="proj-positive">240 (+14%)</td><td className="proj-positive">310 (+48%)</td></tr>
+                    <tr><td>Avg Order Value</td><td>₹740</td><td>₹760 (+3%)</td><td>₹790 (+7%)</td></tr>
+                  </tbody>
+                </table>
+
+                <div style={{marginTop:12}}>
+                  <strong>Recommended next steps</strong>
+                  <ul style={{marginTop:8}}>
+                    <li>Retarget users who clicked but didn't convert — run a 5-day discount ad.</li>
+                    <li>Increase evening ad frequency (6pm–10pm) — historically higher CTR.</li>
+                    <li>Reuse the 'Festive Sale' creative and A/B test CTA text.</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            {/* right column: customers + chat */}
+            <aside>
+              <div className="card">
+                <h4 style={{marginTop:0, color:'var(--accent-2)'}}>👥 Customer Snapshot</h4>
+                <div style={{display:'grid', gap:10, marginTop:8}}>
+                  {customers.map((c, idx) => (
+                    <div key={idx} style={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
+                      <div>
+                        <div style={{fontSize:13, color:'var(--muted)'}}>{c.metric}</div>
+                        <div style={{fontWeight:700, fontSize:16}}>{c.value}{typeof c.value === 'number' && c.metric !== 'Top Location' ? '' : ''}</div>
+                      </div>
+                      <div style={{textAlign:'right', color: c.change > 0 ? '#2EA78B' : '#FF6B6B', fontWeight:700}}>
+                        {c.change > 0 ? `+${c.change}%` : c.change === 0 ? '—' : `${c.change}%`}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div style={{marginTop:12}} className="small">
+                  <strong>What to do:</strong>
+                  <ul style={{marginTop:8}}>
+                    <li>Send an exclusive WhatsApp coupon to recent buyers (↑ retention).</li>
+                    <li>Run a 'refer a friend' promo for repeat-customer growth.</li>
+                  </ul>
+                </div>
+              </div>
+
+              {/* chat assistant */}
+              <div style={{marginTop:14}} className="card">
+                <h4 style={{marginTop:0}}>🤖 AI Assistant</h4>
+                <div className="chat-box" id="chatbox">
+                  {chatMessages.map((m, i) => (
+                    <div key={i} className={`chat-row ${m.from === 'user' ? 'user' : ''}`}>
+                      <div className={`chat-bubble ${m.from === 'user' ? 'user' : ''}`}>{m.text}</div>
+                    </div>
+                  ))}
+                </div>
+
+                <form onSubmit={handleSend} style={{display:'flex', gap:8, marginTop:10}}>
+                  <input value={input} onChange={(e)=>setInput(e.target.value)} placeholder="Ask something like 'How to increase conversions?'" style={{flex:1, padding:'10px 12px', borderRadius:8, border:'1px solid #eee'}} />
+                  <button className="btn primary">Send</button>
+                </form>
+
+                <div className="small suggestions">
+                  <button className="btn ghost" onClick={(ev)=>{ev.preventDefault(); setInput('Retarget non-converters with 10% discount');}}>Retarget non-converters</button>
+                  <button className="btn ghost" onClick={(ev)=>{ev.preventDefault(); setInput('Increase evening frequency');}}>Increase evening ads</button>
+                </div>
+              </div>
+            </aside>
           </div>
-          <form onSubmit={handleSend} style={{ marginTop: "12px", display: "flex", gap: "10px" }}>
-            <input
-              placeholder="Ask the AI assistant..."
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              style={{
-                flex: 1, padding: "10px 12px", borderRadius: "8px",
-                border: "1px solid #ccc"
-              }}
-            />
-            <button style={{
-              background: "#FF6B6B", color: "white", border: "none",
-              borderRadius: "8px", padding: "10px 16px", cursor: "pointer",
-              fontWeight: "600"
-            }}>Send</button>
-          </form>
         </section>
       </main>
     </>
