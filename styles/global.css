@@ -1,20 +1,121 @@
-/* ---------------- Bootstrap overrides & helpers ---------------- */
-.btn.primary {
-  background: var(--primary-1);
-  color: white;
-  border: none;
-  font-weight: 700;
+:root{
+  --primary-1: #FF6B6B; /* coral */
+  --accent-1: #FFD93D; /* yellow */
+  --accent-2: #4ECDC4; /* teal */
+  --text-dark: #2E2E3A;
+  --bg: #F8F9FA;
+  --card-bg: #FFFFFF;
+  --muted: #7A7A85;
+  --radius: 12px;
+  --shadow: 0 6px 18px rgba(30,30,30,0.06);
+  --glass: rgba(255,255,255,0.7);
 }
-.btn.ghost {
-  background: transparent;
-  border: 1px solid rgba(0,0,0,0.06);
+
+/* Global resets */
+* { box-sizing: border-box; }
+html,body,#__next { height: 100%; }
+body {
+  margin: 0;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, "Helvetica Neue", Arial;
+  background: var(--bg);
+  color: var(--text-dark);
+  -webkit-font-smoothing:antialiased;
 }
-.form-control {
-  border-radius: 10px;
-  padding: 10px 12px;
-  border: 1px solid rgba(0,0,0,0.06);
+
+/* Navbar */
+.navbar {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:16px 48px;
+  background: linear-gradient(90deg,var(--primary-1),var(--accent-1));
+  color:white;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  gap:12px;
+}
+.brand { font-weight:700; font-size:1.05rem; letter-spacing:0.2px;}
+.nav-links { display:flex; gap:18px; align-items:center;}
+.nav-links a { color:white; textDecoration: none; text-decoration:none; font-weight:600; }
+
+/* Mobile nav toggle */
+.nav-toggle { display:none; background:transparent; border:none; color:white; font-size:20px; }
+
+/* Container */
+.container { padding: 28px; max-width:1100px; margin:0 auto; }
+
+/* Page title */
+.page-title { text-align:center; margin:6px 0 18px 0; font-size:1.4rem; color:var(--text-dark); }
+
+/* Grid helpers */
+.grid {
+  display:grid;
+  gap:18px;
+}
+.grid.cols-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+.grid.cols-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+@media (max-width: 920px) {
+  .grid.cols-3 { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 640px) {
-  .page-title { font-size: 1.1rem; }
-  .container { padding-left: 12px; padding-right: 12px; }
+  .grid.cols-3, .grid.cols-2 { grid-template-columns: 1fr; }
+  .container { padding:18px; }
+  .nav-links { display:none; }
+  .nav-toggle { display:block; }
 }
+
+/* Card */
+.card {
+  background: var(--card-bg);
+  padding:18px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(15,15,15,0.03);
+}
+
+/* small stat */
+.stat { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+.stat .meta { color:var(--muted); font-size:0.9rem; }
+.stat .value { font-weight:700; font-size:1.25rem; color:var(--text-dark); }
+
+/* highlight pill */
+.pill { padding:6px 10px; border-radius:999px; font-weight:700; color:white; background:var(--primary-1); }
+
+/* buttons */
+.btn {
+  display:inline-block; padding:10px 14px; border-radius:10px; font-weight:700; cursor:pointer;
+  border:none;
+  color:var(--text-dark);
+  background:var(--accent-1);
+}
+.btn.primary { color:white; background:var(--primary-1); }
+.btn.ghost { background:transparent; border:1px solid rgba(0,0,0,0.06); }
+
+/* charts container */
+.chart-wrap { height:110px; display:flex; align-items:center; justify-content:center; }
+
+/* chat */
+.chat-box { display:flex; flex-direction:column; gap:10px; max-height:260px; overflow:auto; padding:8px; background:linear-gradient(180deg, #fff, #fcfcfc); border-radius:10px; border:1px solid #eee; }
+.chat-row { display:flex; }
+.chat-row.user { justify-content:flex-end; }
+.chat-bubble {
+  max-width:78%;
+  padding:10px 12px; border-radius:12px; background:#F8F9FA; color:var(--text-dark);
+}
+.chat-bubble.user { background:var(--accent-1); color:var(--text-dark); font-weight:700; }
+
+/* suggestions list */
+.suggestions { display:flex; gap:10px; flex-wrap:wrap; margin-top:10px; }
+
+/* small helper */
+.small { font-size:0.9rem; color:var(--muted); }
+
+/* projection table */
+.proj-table { width:100%; border-collapse:collapse; margin-top:12px; }
+.proj-table th, .proj-table td { padding:8px 10px; text-align:left; border-bottom:1px solid rgba(0,0,0,0.03); }
+.proj-positive { color: #2EA78B; font-weight:700; }
+.proj-negative { color: #FF6B6B; font-weight:700; }
