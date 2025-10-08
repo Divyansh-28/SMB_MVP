@@ -6,7 +6,7 @@ export default function CreateCampaign() {
   const router = useRouter();
   const [form, setForm] = useState({
     goal: "",
-    audience: "",
+    // audience: "",   <-- removed as requested
     budget: "",
     duration: "",
   });
@@ -22,7 +22,11 @@ export default function CreateCampaign() {
       <Navbar />
       <main style={{ padding: "40px", maxWidth: "700px", margin: "auto" }}>
         <h2>Create a New Campaign</h2>
-        <p>Define your campaign goal, audience, and budget.</p>
+        <p>
+          We’ve simplified the process — if you’re unsure about your audience, use{" "}
+          <strong>Find My Audience</strong> on the Dashboard and it will suggest audiences for you.
+        </p>
+
         <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "15px" }}>
           <select value={form.goal} onChange={(e) => setForm({ ...form, goal: e.target.value })} required>
             <option value="">Select Goal</option>
@@ -30,19 +34,27 @@ export default function CreateCampaign() {
             <option value="Sales">Increase Sales</option>
             <option value="Leads">Generate Leads</option>
           </select>
-          <input placeholder="Target Audience (e.g. local customers, youth, families)"
-            value={form.audience}
-            onChange={(e) => setForm({ ...form, audience: e.target.value })} required />
+
+          {/* Audience field intentionally removed. Guiding text added above. */}
+
           <input placeholder="Campaign Budget (₹)"
             value={form.budget}
             onChange={(e) => setForm({ ...form, budget: e.target.value })} required />
           <input placeholder="Duration (in days)"
             value={form.duration}
             onChange={(e) => setForm({ ...form, duration: e.target.value })} required />
-          <button style={{ background: "#0a2540", color: "white", padding: "10px", borderRadius: "6px" }}>
+
+          <button style={{ background: "#FF6B6B", color: "white", padding: "10px", borderRadius: "6px", border: "none", fontWeight:700 }}>
             Launch Campaign →
           </button>
         </form>
+
+        <div style={{ marginTop: 18, background: "#fff6e6", padding: 12, borderRadius: 8 }}>
+          <strong>Not sure who to target?</strong>
+          <p style={{ margin: "6px 0" }}>
+            Click <a href="/dashboard" style={{ color: "#FF6B6B", fontWeight: 700 }}>Find My Audience</a> on the Dashboard — our assistant will suggest audiences based on your past engagement and store profile.
+          </p>
+        </div>
       </main>
     </>
   );
