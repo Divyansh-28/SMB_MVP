@@ -6,7 +6,7 @@ export default function CreateCampaign() {
   const router = useRouter();
   const [form, setForm] = useState({
     goal: "",
-    // audience: "",   <-- removed as requested
+    // audience removed intentionally
     budget: "",
     duration: "",
   });
@@ -34,8 +34,6 @@ export default function CreateCampaign() {
             <option value="Sales">Increase Sales</option>
             <option value="Leads">Generate Leads</option>
           </select>
-
-          {/* Audience field intentionally removed. Guiding text added above. */}
 
           <input placeholder="Campaign Budget (₹)"
             value={form.budget}
