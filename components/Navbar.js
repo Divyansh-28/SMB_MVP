@@ -1,22 +1,45 @@
 import Link from "next/link";
+import { useState } from "react";
 
 export default function Navbar() {
+  const [open, setOpen] = useState(false);
   return (
-    <nav style={{
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center",
-      padding: "16px 48px",
-      background: "linear-gradient(90deg, #FF6B6B, #FFD93D)",
-      color: "white",
-      boxShadow: "0 2px 8px rgba(0,0,0,0.15)"
-    }}>
-      <h2 style={{ fontWeight: 700 }}>AdPilot AI</h2>
-      <div style={{ display: "flex", gap: "24px" }}>
-        <Link href="/" style={{ color: "white", textDecoration: "none" }}>Setup</Link>
-        <Link href="/create" style={{ color: "white", textDecoration: "none" }}>Create</Link>
-        <Link href="/dashboard" style={{ color: "white", textDecoration: "none" }}>Dashboard</Link>
+    <header className="navbar">
+      <div style={{display:'flex', alignItems:'center', gap:12}}>
+        <div className="brand">AdPilot AI</div>
+        <div style={{display:'none'}} className="small">SMB Growth Assistant</div>
       </div>
-    </nav>
+
+      <nav>
+        <div className="nav-links" role="navigation">
+          <Link href="/">Setup</Link>
+          <Link href="/create">Create</Link>
+          <Link href="/dashboard">Dashboard</Link>
+        </div>
+
+        <button className="nav-toggle" onClick={() => setOpen(!open)}>
+          ☰
+        </button>
+      </nav>
+
+      {/* Mobile menu (simple) */}
+      {open && (
+        <div style={{
+          position: "absolute",
+          top: 64,
+          right: 20,
+          background: "white",
+          borderRadius: 10,
+          boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
+          padding: 12,
+        }}>
+          <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+            <Link href="/">Setup</Link>
+            <Link href="/create">Create</Link>
+            <Link href="/dashboard">Dashboard</Link>
+          </div>
+        </div>
+      )}
+    </header>
   );
 }
